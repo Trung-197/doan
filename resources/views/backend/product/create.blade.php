@@ -17,7 +17,7 @@
                     @endif
                 </div>
                 <div class="form-group">
-                    <label for="name">Price:</label>
+                    <label for="name">Giá tiền:</label>
                     <input type="text" class="form-control rounded-0" name="price" placeholder="Giá tiền..." value="{{old('price')}}">
                     @if($errors->has('price'))
                         <p class="text-danger">{{$errors->first('price')}}</p>
@@ -38,6 +38,13 @@
                     </select>
                     @if($errors->has('category_id'))
                         <p class="text-danger">{{$errors->first('category_id')}}</p>
+                    @endif
+                </div>
+                <div class="form-group">
+                    <label for="name">Số lượng:</label>
+                    <input type="text" class="form-control rounded-0" name="quantity" placeholder="Số lượng..." value="{{old('quantity')}}">
+                    @if($errors->has('quantity'))
+                        <p class="text-danger">{{$errors->first('quantity')}}</p>
                     @endif
                 </div>
                     {{--                    <label for="parent_name">Tags:</label>--}}

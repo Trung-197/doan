@@ -19,7 +19,7 @@
                     <li>Địa chỉ: <strong>{{ $customer->address }}</strong></li>
                     <li>Email: <strong>{{ $customer->email }}</strong></li>
                     <li>Ghi chú: <strong>Không có ghi chú</strong></li>
-                    <li>Hình thức thanh toán: <strong>Thanh toán khi nhận hàng</strong></li>
+                    <li>Hình thức thanh toán: <strong>{{ $customer->status }}</strong></li>
                 </ul>
             </div>
             </thead>

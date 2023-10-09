@@ -8,6 +8,17 @@
                 <div class="col-6">
                     <p class="mb-0">Danh sách đơn hàng</p>
                 </div>
+                <div class="col-5">
+                    <form action="" method="get">
+                        <div class="col-md-12">
+                            <div class="col-md-12">
+                                <input style="height: 28px" type="text"
+                                       placeholder="Tìm kiếm ID hoặc tên khách hàng" id="keyword" class="form-control"
+                                       name="keyword">
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </h3>
         </div>
         <div class="card-body p-0">
@@ -23,7 +34,7 @@
 
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="listProduct">
                 @foreach($customers as $customer)
                     <td>{{$customer->id}}</td>
                     <td>{{$customer->name}}</td>
@@ -61,6 +72,29 @@
         function del(id) {
             document.getElementById('form-'+id).submit();
         }
+    </script>
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $(document).ready(function(){
+            $(document).on('keyup','#keyword',function()
+            {
+                var keyword = $(this).val();
+                $.ajax({
+                    type:"get",
+                    url:"{{route('search-order')}}",
+                    data: {keyword:keyword},
+                    dataType:"json",
+                    success:function (response){
+                        console.log(response);
+                        $('#listProduct').html(response)
+                    }
+                })
+            });
+        });
     </script>
 @endpush
 

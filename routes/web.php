@@ -27,73 +27,79 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::group(['prefix' => 'category', 'as' => 'category.',], function (){
-    Route::get('', [CategoryController::class, 'index',])->middleware('can:category-list')->name('index');
-    Route::get('/create', [CategoryController::class, 'create'])->middleware('can:category-create')->name('create');
-    Route::post('', [CategoryController::class, 'store'])->name('store');
-    Route::get('/{id}/edit', [CategoryController::class, 'edit'])->middleware('can:category-edit')->name('edit');
-    Route::put('{id}', [CategoryController::class, 'update'])->name('update');
-    Route::delete('/{id}', [CategoryController::class, 'delete'])->middleware('can:category-delete')->name('delete');
+Route::group(['middleware'=>'admin'],function()
+{
+    Route::group(['prefix' => 'category', 'as' => 'category.',], function (){
+        Route::get('', [CategoryController::class, 'index',])->middleware('can:category-list')->name('index');
+        Route::get('/create', [CategoryController::class, 'create'])->middleware('can:category-create')->name('create');
+        Route::post('', [CategoryController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [CategoryController::class, 'edit'])->middleware('can:category-edit')->name('edit');
+        Route::put('{id}', [CategoryController::class, 'update'])->name('update');
+        Route::delete('/{id}', [CategoryController::class, 'delete'])->middleware('can:category-delete')->name('delete');
+    });
+
+    Route::group(['prefix' => 'menu', 'as' => 'menu.'], function (){
+        Route::get('', [MenuController::class, 'index'])->middleware('can:menu-list')->name('index');
+        Route::get('/create', [MenuController::class, 'create'])->middleware('can:menu-create')->name('create');
+        Route::post('', [MenuController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [MenuController::class, 'edit'])->middleware('can:menu-edit')->name('edit');
+        Route::put('{id}', [MenuController::class, 'update'])->name('update');
+        Route::delete('/{id}', [MenuController::class, 'delete'])->middleware('can:menu-delete')->name('delete');
+    });
+    Route::group(['prefix' => 'product', 'as' => 'product.'], function (){
+        Route::get('', [ProductController::class, 'index'])->middleware('can:product-list')->name('index');
+        Route::get('/create', [ProductController::class, 'create'])->middleware('can:product-create')->name('create');
+        Route::post('', [ProductController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [ProductController::class, 'edit'])->middleware('can:product-edit')->name('edit');
+        Route::put('{id}', [ProductController::class, 'update'])->name('update');
+        Route::delete('/{id}', [ProductController::class, 'delete'])->middleware('can:product-delete')->name('delete');
+        Route::get('search-product', [ProductController::class,'getSearchAjax'])->name('search-product');
+    });
+    Route::group(['prefix' => 'slider', 'as' => 'slider.'], function (){
+        Route::get('', [SliderController::class, 'index'])->middleware('can:slider-list')->name('index');
+        Route::get('/create', [SliderController::class, 'create'])->middleware('can:slider-create')->name('create');
+        Route::post('', [SliderController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [SliderController::class, 'edit'])->middleware('can:slider-edit')->name('edit');
+        Route::put('{id}', [SliderController::class, 'update'])->name('update');
+        Route::delete('/{id}', [SliderController::class, 'delete'])->middleware('can:slider-delete')->name('delete');
+    });
+    Route::group(['prefix' => 'settings', 'as' => 'settings.'], function (){
+        Route::get('', [SettingController::class, 'index'])->middleware('can:setting-list')->name('index');
+        Route::get('/create', [SettingController::class, 'create'])->middleware('can:setting-create')->name('create');
+        Route::post('', [SettingController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [SettingController::class, 'edit'])->middleware('can:setting-edit')->name('edit');
+        Route::put('{id}', [SettingController::class, 'update'])->name('update');
+        Route::delete('/{id}', [SettingController::class, 'delete'])->middleware('can:setting-delete')->name('delete');
+    });
+    Route::group(['prefix' => 'users', 'as' => 'users.'], function (){
+        Route::get('', [UserController::class, 'index'])->middleware('can:user-list')->name('index');
+        Route::get('/create', [UserController::class, 'create'])->middleware('can:user-create')->name('create');
+        Route::post('', [UserController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [UserController::class, 'edit'])->middleware('can:user-edit')->name('edit');
+        Route::put('{id}', [UserController::class, 'update'])->name('update');
+        Route::delete('/{id}', [UserController::class, 'delete'])->middleware('can:user-delete')->name('delete');
+    });
+    Route::group(['prefix' => 'roles', 'as' => 'roles.'], function (){
+        Route::get('', [RoleController::class, 'index'])->middleware('can:role-list')->name('index');
+        Route::get('/create', [RoleController::class, 'create'])->middleware('can:role-create')->name('create');
+        Route::post('', [RoleController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [RoleController::class, 'edit'])->middleware('can:role-edit')->name('edit');
+        Route::put('{id}', [RoleController::class, 'update'])->name('update');
+        Route::delete('/{id}', [RoleController::class, 'delete'])->middleware('can:role-delete')->name('delete');
+    });
+    Route::group(['prefix' => 'permissions', 'as' => 'permissions.'], function (){
+        Route::get('', [PermissionController::class, 'createPermissions'])->middleware('can:permission-create')->name('index');
+        Route::post('', [PermissionController::class, 'store'])->name('store');
+    });
+    Route::get('customers', [\App\Http\Controllers\backend\CartController::class, 'index'])->name('carts.index');
+    Route::delete('customers/{id}', [\App\Http\Controllers\backend\CartController::class, 'delete'])->name('carts.delete');
+    Route::get('customers/view/{customer}', [\App\Http\Controllers\backend\CartController::class, 'show'])->name('carts.show');
+    Route::get('/main',[\App\Http\Controllers\backend\MainController::class,'index'])->name('dashboard');
+    Route::get('bao-cao-san-pham-ban',[\App\Http\Controllers\backend\ReportController::class,'productSold'])->name('report-sold');
+    Route::get('bao-cao-doanh-thu',[\App\Http\Controllers\backend\ReportController::class,'revenue'])->name('report-revenue');
+    Route::get('search-order', [\App\Http\Controllers\backend\CartController::class,'getSearchAjax'])->name('search-order');
 });
 
-Route::group(['prefix' => 'menu', 'as' => 'menu.'], function (){
-    Route::get('', [MenuController::class, 'index'])->middleware('can:menu-list')->name('index');
-    Route::get('/create', [MenuController::class, 'create'])->middleware('can:menu-create')->name('create');
-    Route::post('', [MenuController::class, 'store'])->name('store');
-    Route::get('/{id}/edit', [MenuController::class, 'edit'])->middleware('can:menu-edit')->name('edit');
-    Route::put('{id}', [MenuController::class, 'update'])->name('update');
-    Route::delete('/{id}', [MenuController::class, 'delete'])->middleware('can:menu-delete')->name('delete');
-});
-Route::group(['prefix' => 'product', 'as' => 'product.'], function (){
-    Route::get('', [ProductController::class, 'index'])->middleware('can:product-list')->name('index');
-    Route::get('/create', [ProductController::class, 'create'])->middleware('can:product-create')->name('create');
-    Route::post('', [ProductController::class, 'store'])->name('store');
-    Route::get('/{id}/edit', [ProductController::class, 'edit'])->middleware('can:product-edit')->name('edit');
-    Route::put('{id}', [ProductController::class, 'update'])->name('update');
-    Route::delete('/{id}', [ProductController::class, 'delete'])->middleware('can:product-delete')->name('delete');
-    Route::get('search-product', [ProductController::class,'getSearchAjax'])->name('search-product');
-
-});
-Route::group(['prefix' => 'slider', 'as' => 'slider.'], function (){
-    Route::get('', [SliderController::class, 'index'])->middleware('can:slider-list')->name('index');
-    Route::get('/create', [SliderController::class, 'create'])->middleware('can:slider-create')->name('create');
-    Route::post('', [SliderController::class, 'store'])->name('store');
-    Route::get('/{id}/edit', [SliderController::class, 'edit'])->middleware('can:slider-edit')->name('edit');
-    Route::put('{id}', [SliderController::class, 'update'])->name('update');
-    Route::delete('/{id}', [SliderController::class, 'delete'])->middleware('can:slider-delete')->name('delete');
-});
-Route::group(['prefix' => 'settings', 'as' => 'settings.'], function (){
-    Route::get('', [SettingController::class, 'index'])->middleware('can:setting-list')->name('index');
-    Route::get('/create', [SettingController::class, 'create'])->middleware('can:setting-create')->name('create');
-    Route::post('', [SettingController::class, 'store'])->name('store');
-    Route::get('/{id}/edit', [SettingController::class, 'edit'])->middleware('can:setting-edit')->name('edit');
-    Route::put('{id}', [SettingController::class, 'update'])->name('update');
-    Route::delete('/{id}', [SettingController::class, 'delete'])->middleware('can:setting-delete')->name('delete');
-});
-Route::group(['prefix' => 'users', 'as' => 'users.'], function (){
-    Route::get('', [UserController::class, 'index'])->middleware('can:user-list')->name('index');
-    Route::get('/create', [UserController::class, 'create'])->middleware('can:user-create')->name('create');
-    Route::post('', [UserController::class, 'store'])->name('store');
-    Route::get('/{id}/edit', [UserController::class, 'edit'])->middleware('can:user-edit')->name('edit');
-    Route::put('{id}', [UserController::class, 'update'])->name('update');
-    Route::delete('/{id}', [UserController::class, 'delete'])->middleware('can:user-delete')->name('delete');
-});
-Route::group(['prefix' => 'roles', 'as' => 'roles.'], function (){
-    Route::get('', [RoleController::class, 'index'])->middleware('can:role-list')->name('index');
-    Route::get('/create', [RoleController::class, 'create'])->middleware('can:role-create')->name('create');
-    Route::post('', [RoleController::class, 'store'])->name('store');
-    Route::get('/{id}/edit', [RoleController::class, 'edit'])->middleware('can:role-edit')->name('edit');
-    Route::put('{id}', [RoleController::class, 'update'])->name('update');
-    Route::delete('/{id}', [RoleController::class, 'delete'])->middleware('can:role-delete')->name('delete');
-});
-Route::group(['prefix' => 'permissions', 'as' => 'permissions.'], function (){
-    Route::get('', [PermissionController::class, 'createPermissions'])->middleware('can:permission-create')->name('index');
-    Route::post('', [PermissionController::class, 'store'])->name('store');
-});
-Route::get('customers', [\App\Http\Controllers\backend\CartController::class, 'index'])->name('carts.index');
-Route::delete('customers/{id}', [\App\Http\Controllers\backend\CartController::class, 'delete'])->name('carts.delete');
-Route::get('customers/view/{customer}', [\App\Http\Controllers\backend\CartController::class, 'show'])->name('carts.show');
-Route::get('/main',[\App\Http\Controllers\backend\MainController::class,'index'])->name('dashboard');
 
 Auth::routes();
 
@@ -108,3 +114,4 @@ Route::post('carts', [App\Http\Controllers\CartController::class, 'addCart'])->n
 Route::get('profile/{id}', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
 Route::patch('{id}', [App\Http\Controllers\ProfileController::class, 'update'])->name('update-profile');
 Route::get('/search',[App\Http\Controllers\HomeController::class, 'search'])->name('search');
+Route::post('/momo_payment', [App\Http\Controllers\CartController::class, 'momo_payment'])->name('user.pay')->middleware('auth');

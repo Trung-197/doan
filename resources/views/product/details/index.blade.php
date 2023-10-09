@@ -49,17 +49,15 @@
 {{--                            </div>--}}
                         </div><!--/product-details-->
                         <div class="col-md-7">
+                            @include('alert.alert')
+
                             <div class="product-details">
                                 <h2 class="product-name">{{$product->name}}</h2>
                                 <div>
                                     <div class="product-rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
+                                       Số lượng còn lại trong kho: {{$product->quantity}}
                                     </div>
-                                    <a class="review-link" href="#">10 Review(s) | Add your review</a>
+
                                 </div>
                                 <div>
                                     <h3 class="product-price">{{ number_format($product->price) }} VNĐ</h3>
@@ -70,7 +68,7 @@
                                 <form action="{{route('add-cart')}}" method="post">
                                     <div class="add-to-cart">
                                         <div class="qty-label">
-                                            Số lượng
+                                            Số lượng mua
                                             <div class="input-number">
                                                 <input type="number" name="num_product" value="1">
                                                 <span class="qty-up">+</span>

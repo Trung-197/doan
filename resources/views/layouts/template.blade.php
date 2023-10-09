@@ -186,7 +186,6 @@
         $(this).parents().find('.checkbox_childrent').prop('checked', $(this).prop('checked'))
         $(this).parents().find('.checkbox_wrapper').prop('checked', $(this).prop('checked'))
     })
-
 </script>
 {!! Toastr::message() !!}
 

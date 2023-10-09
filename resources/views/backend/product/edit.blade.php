@@ -51,6 +51,13 @@
                     {{--                    </select>--}}
                 </div>
                 <div class="form-group">
+                    <label for="name">Số lượng:</label>
+                    <input type="text" class="form-control rounded-0" name="quantity" placeholder="Số lượng..." value="{{$product->quantity}}">
+                    @if($errors->has('quantity'))
+                        <p class="text-danger">{{$errors->first('quantity')}}</p>
+                    @endif
+                </div>
+                <div class="form-group">
                     <label for="name">Nội dung:</label>
                     <textarea class="form-control tinymce_editor_init" rows="3" name="contents">{{$product->content}}</textarea>
                     @if($errors->has('contents'))

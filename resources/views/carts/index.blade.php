@@ -63,8 +63,10 @@
                                     <td class="cart_delete">
                                         <a class="cart_quantity_delete" href="/carts/delete/{{$product->id}}"><i class="fa fa-times"></i></a>
                                     </td>
+
                                 </tr>
                             @endforeach
+
                             </tbody>
 
                         </table>
@@ -92,27 +94,40 @@
 {{--                    Vui lòng cập nhật đầy đủ thông tin cá nhân trước khi đặt hàng--}}
 {{--                </div>--}}
 {{--            @else--}}
+
                         <div style="float: right">
-                <button type="submit" formaction=""
-                       class="btn btn-default update" style="margin-bottom: 20px; background-color: #D10024">
-                    <span style="color: white">THANH TOÁN</span>
-                <i class="fa fa-arrow-circle-right" style="color: white"></i>
-                </button>
+
                 @csrf
             </div>
+            <div style="float: right">
             <form action="{{route('order')}}" method="post">
-                <div style="float: right">
                     <input type="hidden" name="name" value="{{ auth()->user()->name }}">
                     <input type="hidden" name="email" value="{{ auth()->user()->email }}">
                     <input type="hidden" name="phone" value="{{ auth()->user()->phone }}">
                     <input type="hidden" name="address" value="{{ auth()->user()->address }}">
-                    <button type="submit" formaction="{{route('order')}}"
-                            class="btn btn-default update" style="margin-bottom: 20px; background-color: yellowgreen">
+                    <input type="hidden" name="status" value=" Thanh toán khi nhận hàng ">
+
+                <button type="submit" formaction="{{route('order')}}"
+                            class="btn btn-default update" style="margin-bottom: 0px; background-color: yellowgreen">
                         <span style="color: white">ĐẶT HÀNG</span>
                     </button>
                     @csrf
-                </div>
             </form>
+            </div>
+            <div style="float: right">
+            @if (count($products_cart) != 0)
+            <form action="{{ route('user.pay') }}" method="POST">
+                @csrf
+                <input type="hidden" name="total_momopay" value="{{ $total }}">
+                <input type="hidden" name="name" value="{{ auth()->user()->name }}">
+                <input type="hidden" name="email" value="{{ auth()->user()->email }}">
+                <input type="hidden" name="phone" value="{{ auth()->user()->phone }}">
+                <input type="hidden" name="address" value="{{ auth()->user()->address }}">
+                <input type="hidden" name="status" value=" Đã thanh toán ">
+                <button type="submit" class="col-4 btn btn-primary" name="payUrl">MOMO Payment</button>
+            </form>
+            @endif
+            </div>
 {{--            @endif--}}
 
         </div>

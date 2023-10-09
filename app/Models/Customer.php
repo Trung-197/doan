@@ -13,7 +13,7 @@ class Customer extends Model
         'phone',
         'address',
         'email',
-        'content'
+        'status'
     ];
 
     public function carts()

@@ -43,4 +43,43 @@ class CartController extends Controller
             $query->select('id', 'name', 'feature_image_path');
         }])->get();
     }
+    public function getSearchAjax(Request $request)
+    {
+        $output = '';
+        $carts = Cart::select('carts.id','carts.created_at','customers.name','customers.phone','customers.email')
+            ->join('customers','customers.id','=','carts.customer_id')
+            ->where('carts.id','LIKE','%'.$request->keyword.'%')
+            ->orwhere('customers.name','LIKE','%'.$request->keyword.'%')
+            ->orderByDesc('carts.id')
+            ->get();
+        foreach ($carts as $cart) {
+            $output .= '       <tr>
+
+                                                <td>'.$cart->id.'</td>
+                                                <td>'.$cart->name.'</td>
+                                                <td>'.$cart->phone.'</td>
+                                                <td>'.$cart->email.'</td>
+                                                 <td>
+                                                    '.$cart->created_at.'
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-warning" style="cursor: pointer">
+                                                        <a href="/customers/view/'.$cart->id.'">Xem</a>
+                                                    </span>
+                                                    <span class="badge bg-danger" style="cursor: pointer">
+                                                        <a onclick="del('.$cart->id.')">Xoá</a>
+                                                        <form id="form-'.$cart->id.'" class="d-none" action="'.route('carts.delete',
+                    $cart->id).'" method="post">
+                                                            '.csrf_field().'
+                                                            '.method_field('delete').'
+                                                        </form>
+                                                    </span>
+                                                 </td>
+                                            </tr>
+                                            ';
+        }
+
+        return response()->json($output);
+//        return view('backend.product.search',compact('products'));
+    }
 }

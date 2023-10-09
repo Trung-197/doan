@@ -94,11 +94,7 @@
                                         <h3 class="product-name"><a href="#">{{$product->name}}</a></h3>
                                         <h4 class="product-price">{{number_format($product->price)}} VND</h4>
                                         <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
+                                            Đã bán: {{$product->quantity_sold}}
                                         </div>
                                         <div class="product-btns">
                                             <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Yêu thích</span></button>

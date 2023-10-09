@@ -65,6 +65,7 @@ class ProductController extends Controller
                 'name' => $request->name,
                 'price' => $request->price,
                 'content' => $request->contents,
+                'quantity' => $request->quantity,
                 'user_id' => auth()->id(),
                 'category_id' => $request->category_id,
                 'feature_image_path' => $request->feature_image_path,
@@ -94,7 +95,7 @@ class ProductController extends Controller
         $htmlOption = $this->getCategory($product->category_id);
         return view('backend.product.edit',compact('htmlOption','product'));
     }
-    public function update(Request $request,$id)
+    public function update(ProductRequest $request,$id)
     {
         try{
             if ($request->hasFile('feature_image_path')) {
@@ -106,6 +107,7 @@ class ProductController extends Controller
                 'name' => $request->name,
                 'price' => $request->price,
                 'content' => $request->contents,
+                'quantity' => $request->quantity,
                 'user_id' => auth()->id(),
                 'category_id' => $request->category_id,
                 'feature_image_path' => $request->feature_image_path,
@@ -161,6 +163,7 @@ class ProductController extends Controller
                                                 <td>'. $product->id .'</td>
                                                 <td>'. $product->name .'</td>
                                                 <td>'. $product->price .'</td>
+                                                <td>'. $product->quantity .'</td>
                                                 <td><img src="/products/'. $product->feature_image_path .'" height="60px"  width="60px">
                                                 </td>
                                                  <td>

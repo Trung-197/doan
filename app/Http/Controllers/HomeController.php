@@ -29,10 +29,11 @@ class HomeController extends Controller
         $categories = Category::where('parent_id', 0)->get();
         $products = Product::latest()->get();
         $productsRecommend = Product::get();
+        $products_hot = Product::orderbyDesc('quantity_sold')->limit(6)->get();
         $products_cart = $this->getProduct();
         $carts = Session::get('carts');
         $categoryLimit = Category::where('parent_id',0)->get();
-        return view('home.home',compact('sliders','categories','products','productsRecommend','categoryLimit','products_cart','carts'));
+        return view('home.home',compact('sliders','categories','products','productsRecommend','categoryLimit','products_cart','products_hot','carts'));
     }
     public function getProduct()
     {

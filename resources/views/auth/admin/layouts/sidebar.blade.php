@@ -63,8 +63,8 @@
                     </li>
                     <li><a><i class="fa fa-table"></i> Báo cáo - Thống kê <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="">Doanh thu</a></li>
-                            <li><a href="">Sản phẩm đã bán</a></li>
+                            <li><a href="{{route('report-revenue')}}">Doanh thu</a></li>
+                            <li><a href="{{route('report-sold')}}">Sản phẩm đã bán</a></li>
 
                         </ul>
                     </li>

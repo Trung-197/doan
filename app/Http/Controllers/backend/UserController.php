@@ -40,7 +40,6 @@ class UserController extends Controller
         ]);
         $roleIds = $request->role_id;
         $user->roles()->attach($roleIds);
-        Toastr::success('Message', 'Create Success');
         return redirect()->route('users.index');
     }
     public function edit($id)
@@ -58,7 +57,7 @@ class UserController extends Controller
             'password' =>Hash::make($request->password)
         ]);
         $user = $this->user->find($id);
-        $user->roles()->sync($request->role_id);
+        $user->roles()->sync($request->role);
         Toastr::success('Message', 'Update Success');
         return redirect()->route('users.index');
     }
